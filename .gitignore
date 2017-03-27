@@ -1,0 +1,26 @@
+
+
+#                     OS generated files                          #
+###################################################################
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+#                  NODE  FILES                                   #
+##################################################################
+# Node generated files
+
+node_modules
+
+#                  IDE CONFIGURATION FILES                       #
+##################################################################
+# files created by the IDE systems that developers user. 
+
+.vscode
+_config.yml
+.editorconfig
