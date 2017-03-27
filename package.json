@@ -2,7 +2,8 @@
   "name": "psrsjx5",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-
+  "scripts": {},
+  "dependencies": {
+    "rxjs": "^5.2.0"
   }
 }
