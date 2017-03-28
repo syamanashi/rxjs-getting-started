@@ -32,6 +32,14 @@ function loadData(url: string) {
     }).retryWhen(retryStrategy({ attempts: 2, delay: 1500 }));
 }
 
+function loadDataWithFetch(url: string) {
+    // As a promise only delivers a single value, we will create an observable that will produce a single value and then complete:
+    // In this case, the promised is returned by invoking fetch(url).
+    // The promise that the fetch(url) method produces is a promise that will deliver a response object (HTTPResonse with status code, response body, etc.).
+    // Call the json() method on the response object with deserialize the JSON inside of the Observable.fromPromise() method.
+    return Observable.fromPromise(fetch(url).then(r => r.json()));
+}
+
 function retryStrategy({ attempts = 4, delay = 1000 }) {
     // returns a function that takes an observable and returns an observable.
     // and When this function returns a value, the observable will retry the operation.
@@ -56,7 +64,7 @@ function renderMovies(movies) {
 }
 
 // use Observable.flatmap() to subscribe to the inner Observable returned by loadData()
-click.flatMap(e => loadData("movies.json"))
+click.flatMap(e => loadDataWithFetch("movies.json"))
     .subscribe(
     renderMovies,
     e => console.log(`error: ${e}`),
