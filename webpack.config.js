@@ -1,3 +1,5 @@
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+
 module.exports = {
     entry: "./main",
     output: { filename: "app.js"},
@@ -11,5 +13,8 @@ module.exports = {
     },
     resolve: {
         extensions: [".ts", ".js"]
-    }
+    },
+    plugins: [
+        new OpenBrowserPlugin({ url: 'http://localhost:8080'})
+    ]
 }
