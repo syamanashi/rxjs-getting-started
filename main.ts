@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs';
+import { Observable, Observer} from 'rxjs';
 
 let numbers = [1, 5, 10];
 
 // create a simple Observable datasource from the array.
 let source = Observable.from(numbers);
 
-class MyObserver {
+class MyObserver implements Observer<number> {
 
     // observable invokes 'next(value)' on the observer when there is a value to produce:
     next(value) {
