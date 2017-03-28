@@ -11,7 +11,7 @@ let click = Observable.fromEvent(button, "click");
 //      https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
 //      https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/open
 //      https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
-function getMovies(url: string) {
+function loadData(url: string) {
     let xhr = new XMLHttpRequest();
 
     // handle the xhr 'load' event which is raised when the data arrives back from the web server.
@@ -31,7 +31,7 @@ function getMovies(url: string) {
 }
 
 click.subscribe(
-    e => getMovies("movies.json"),
+    e => loadData("movies.json"),
     e => console.log(`error: ${e}`),
     () => console.log("complete")
 );
