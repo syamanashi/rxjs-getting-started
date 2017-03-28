@@ -12,26 +12,38 @@ let click = Observable.fromEvent(button, "click");
 //      https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/open
 //      https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
 function loadData(url: string) {
-    let xhr = new XMLHttpRequest();
+    return Observable.create(observer => {
 
-    // handle the xhr 'load' event which is raised when the data arrives back from the web server.
-    xhr.addEventListener("load", () => {
-        let movies = JSON.parse(xhr.responseText);
-        
-        // loop through the resulting array:
-        movies.forEach(m => {
-            let div = document.createElement("div");
-            div.innerText = m.title;
-            output.appendChild(div);
+        let xhr = new XMLHttpRequest();
+
+        // handle the xhr 'load' event which is raised when the data arrives back from the web server.
+        xhr.addEventListener("load", () => {
+            let data = JSON.parse(xhr.responseText);
+            observer.next(data);
+            observer.complete();
         });
-    });
 
-    xhr.open("GET", url); // sets up the request type, location
-    xhr.send(); // send the request asynchronously
+        xhr.open("GET", url); // sets up the request type, location
+        xhr.send(); // send the request asynchronously
+    });
 }
 
-click.subscribe(
-    e => loadData("movies.json"),
-    e => console.log(`error: ${e}`),
-    () => console.log("complete")
-);
+function renderMovies(movies) {
+    // loop through the resulting array:
+    movies.forEach(m => {
+        let div = document.createElement("div");
+        div.innerText = m.title;
+        output.appendChild(div);
+    });
+}
+
+// use Observable.flatmap() to subscribe to the inner Observable returned by loadData()
+click.flatMap(e => loadData("movies.json"))
+     .subscribe(
+         renderMovies,
+         e => console.log(`error: ${e}`),
+         () => console.log("complete")
+     );
+
+// call loadData directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
+loadData("movies.json").subscribe(renderMovies);
