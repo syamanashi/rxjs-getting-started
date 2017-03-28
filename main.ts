@@ -18,14 +18,18 @@ function loadData(url: string) {
 
         // handle the xhr 'load' event which is raised when the data arrives back from the web server.
         xhr.addEventListener("load", () => {
-            let data = JSON.parse(xhr.responseText);
-            observer.next(data);
-            observer.complete();
+            if (xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                observer.next(data);
+                observer.complete();
+            } else {
+                observer.error(xhr.statusText);
+            }
         });
 
         xhr.open("GET", url); // sets up the request type, location
         xhr.send(); // send the request asynchronously
-    });
+    }).retry(3);
 }
 
 function renderMovies(movies) {
@@ -38,12 +42,12 @@ function renderMovies(movies) {
 }
 
 // use Observable.flatmap() to subscribe to the inner Observable returned by loadData()
-click.flatMap(e => loadData("movies.json"))
-     .subscribe(
-         renderMovies,
-         e => console.log(`error: ${e}`),
-         () => console.log("complete")
-     );
+click.flatMap(e => loadData("mmovies.json"))
+    .subscribe(
+    renderMovies,
+    e => console.log(`error: ${e}`),
+    () => console.log("complete")
+    );
 
 // call loadData directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
-loadData("movies.json").subscribe(renderMovies);
+// loadData("movies.json").subscribe(renderMovies);
