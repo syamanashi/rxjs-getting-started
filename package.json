@@ -2,7 +2,10 @@
   "name": "psrsjx5",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "start": "webpack-dev-server --watch --inline",
+    "postinstall": "typings install"
+  },
   "dependencies": {
     "rxjs": "^5.2.0"
   },
