@@ -37,7 +37,9 @@ function loadDataWithFetch(url: string) {
     // In this case, the promised is returned by invoking fetch(url).
     // The promise that the fetch(url) method produces is a promise that will deliver a response object (HTTPResonse with status code, response body, etc.).
     // Call the json() method on the response object with deserialize the JSON inside of the Observable.fromPromise() method.
-    return Observable.fromPromise(fetch(url).then(r => r.json()));
+    return Observable.defer(() => {
+        return Observable.fromPromise(fetch(url).then(r => r.json()));
+    });
 }
 
 function retryStrategy({ attempts = 4, delay = 1000 }) {
