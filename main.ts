@@ -19,14 +19,15 @@ let source = Observable.create(observer => {
         observer.next(numbers[index++]);
 
         if (index < numbers.length) {
-            setTimeout(produceValue, 2000);
+            setTimeout(produceValue, 250);
         } else {
             observer.complete();
         }
     }
     produceValue();
 
-});
+}).map(n => n * 2)
+  .filter(n => n > 4);
 
 // NOTE: The observer is simply an object that waits for data to be produced from the observable, and provides the logic to react to the data that is arriving.
 // Simpler way to build an observer:
