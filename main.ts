@@ -7,7 +7,8 @@ let source = Observable.fromEvent(document, "mousemove")
                                x: e.clientX,
                                y: e.clientY
                            }
-                       });
+                       })
+                       .filter(value => value.x < 500);
 
 source.subscribe(
     value => console.log(value),
