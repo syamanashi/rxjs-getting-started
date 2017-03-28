@@ -35,8 +35,13 @@ function loadData(url: string) {
 function retryStrategy() {
     // returns a function that takes an observable and returns an observable.
     // and When this function returns a value, the observable will retry the operation.
-    return function(errors) {
-        return errors.delay(1000);
+    return function (errors) {
+        return errors
+            .scan((accumulator, value) => {
+                console.log(accumulator, value);
+                return accumulator + 1;
+            }, 10) // starting value for accumulator is set to 10
+            .delay(1000);
     }
 }
 
