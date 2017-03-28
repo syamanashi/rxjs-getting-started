@@ -29,10 +29,10 @@ function loadData(url: string) {
 
         xhr.open("GET", url); // sets up the request type, location
         xhr.send(); // send the request asynchronously
-    }).retryWhen(retryStrategy());
+    }).retryWhen(retryStrategy({ attempts: 2, delay: 1500 }));
 }
 
-function retryStrategy() {
+function retryStrategy({ attempts = 4, delay = 1000 }) {
     // returns a function that takes an observable and returns an observable.
     // and When this function returns a value, the observable will retry the operation.
     return function (errors) {
@@ -41,8 +41,8 @@ function retryStrategy() {
                 console.log(accumulator, value);
                 return accumulator + 1;
             }, 0) // starting value for accumulator is set to 10
-            .takeWhile(acc => acc < 4) // return true if accumulator less than 4
-            .delay(1000);
+            .takeWhile(acc => acc < attempts) // return true if accumulator less than 4
+            .delay(delay);
     }
 }
 
