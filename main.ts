@@ -29,7 +29,15 @@ function loadData(url: string) {
 
         xhr.open("GET", url); // sets up the request type, location
         xhr.send(); // send the request asynchronously
-    }).retry(3);
+    }).retryWhen(retryStrategy());
+}
+
+function retryStrategy() {
+    // returns a function that takes an observable and returns an observable.
+    // and When this function returns a value, the observable will retry the operation.
+    return function(errors) {
+        return errors.delay(1000);
+    }
 }
 
 function renderMovies(movies) {
