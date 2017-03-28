@@ -40,7 +40,8 @@ function retryStrategy() {
             .scan((accumulator, value) => {
                 console.log(accumulator, value);
                 return accumulator + 1;
-            }, 10) // starting value for accumulator is set to 10
+            }, 0) // starting value for accumulator is set to 10
+            .takeWhile(acc => acc < 4) // return true if accumulator less than 4
             .delay(1000);
     }
 }
