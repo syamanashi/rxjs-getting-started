@@ -56,7 +56,7 @@ function renderMovies(movies) {
 }
 
 // use Observable.flatmap() to subscribe to the inner Observable returned by loadData()
-click.flatMap(e => loadData("mmovies.json"))
+click.flatMap(e => loadData("movies.json"))
     .subscribe(
     renderMovies,
     e => console.log(`error: ${e}`),
@@ -64,4 +64,4 @@ click.flatMap(e => loadData("mmovies.json"))
     );
 
 // call loadData directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
-// loadData("movies.json").subscribe(renderMovies);
+loadData("movies.json").subscribe(renderMovies);
