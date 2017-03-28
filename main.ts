@@ -11,7 +11,8 @@ let source = Observable.fromEvent(document, "mousemove")
                                y: e.clientY
                            }
                        })
-                       .filter(value => value.x < 500);
+                       .filter(value => value.x < 500)
+                       .delay(300);
 
 function onNext(value) {
     // console.log(value.x + ' x ' + value.y);
