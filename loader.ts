@@ -50,10 +50,13 @@ function retryStrategy({ attempts = 4, delay = 1000 } = {}) {
     return function (errors) {
         return errors
             .scan((accumulator, value) => {
-                console.log(accumulator, value);
-                return accumulator + 1;
+                accumulator += 1;
+                if (accumulator < attempts) {
+                    return accumulator; // return accumulated value
+                } else {
+                    throw new Error(value);
+                }
             }, 0) // starting value for accumulator is set to 10
-            .takeWhile(acc => acc < attempts) // return true if accumulator less than 4
             .delay(delay);
     }
 }
