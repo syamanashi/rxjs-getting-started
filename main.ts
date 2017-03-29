@@ -12,8 +12,16 @@ let source = Observable.create(observer => {
     observer.complete();
 });
 */
-
+/*
 let source = Observable.merge(
+    Observable.of(1),
+    Observable.from([2, 3, 4]),
+    Observable.throw(new Error("Stop!")),
+    Observable.of(5)
+);
+*/
+
+let source = Observable.onErrorResumeNext(
     Observable.of(1),
     Observable.from([2, 3, 4]),
     Observable.throw(new Error("Stop!")),
