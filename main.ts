@@ -27,4 +27,4 @@ click.flatMap(e => loadDataWithFetch("movies.json"))
     );
 
 // call loadData directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
-loadDataWithFetch("movies.json").subscribe(renderMovies);
+loadDataWithFetch("moviess.json").subscribe(renderMovies);
