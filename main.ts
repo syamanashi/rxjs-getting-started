@@ -26,9 +26,10 @@ click.flatMap(e => loadDataWithFetch("movies.json"))
     () => console.log("complete")
     );
 
-// call loadDataWithFetch directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
-loadDataWithFetch("moviess.json")
-    .subscribe(renderMovies,
+// call loadData directly on page load and subscribe to the returned Observable that loadData returns, passing in the completion handler of renderMovies:
+let subscription = loadData("movies.json")
+    .subscribe(
+        renderMovies,
         e => console.log(`Caught loadDataWithFetch() error! 
             status: ${e.status}, 
             statusText: ${e.statusText},  
@@ -36,3 +37,4 @@ loadDataWithFetch("moviess.json")
         `),
         () => console.log("Complete!")
     );
+console.log(subscription);
