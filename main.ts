@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { loadData, loadDataWithFetch} from './loader';
+import { loadData, loadDataWithFetch } from './loader';
 
 // get reference to the DOM element of the #output and #button ids:
 let output = document.getElementById("output");
@@ -18,7 +18,7 @@ function renderMovies(movies) {
     });
 }
 
-// use Observable.flatmap() to subscribe to the inner Observable returned by loadData()
+// use Observable.flatmap() to subscribe to the inner Observable returned by loadDataWithFetch()
 click.flatMap(e => loadDataWithFetch("movies.json"))
     .subscribe(
     renderMovies,
@@ -26,5 +26,13 @@ click.flatMap(e => loadDataWithFetch("movies.json"))
     () => console.log("complete")
     );
 
-// call loadData directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
-loadDataWithFetch("moviess.json").subscribe(renderMovies);
+// call loadDataWithFetch directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
+loadDataWithFetch("moviess.json")
+    .subscribe(renderMovies,
+        e => console.log(`Caught loadDataWithFetch() error! 
+            status: ${e.status}, 
+            statusText: ${e.statusText},  
+            url: ${e.url}
+        `),
+        () => console.log("Complete!")
+    );
