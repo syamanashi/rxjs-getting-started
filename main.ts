@@ -11,7 +11,6 @@ let source = Observable.create(observer => {
     observer.next(3);
     observer.complete();
 });
-*/
 
 let source = Observable.merge(
     Observable.of(1),
@@ -23,22 +22,21 @@ let source = Observable.merge(
     return Observable.of(10); // returns a new observable that takes over where the previous observable was stopped because of an error.
 });
 
-/*
 let source = Observable.onErrorResumeNext(
     Observable.of(1),
     Observable.from([2, 3, 4]),
     Observable.throw(new Error("Stop!")),
     Observable.of(5)
 );
-*/
 
 source.subscribe(
     value => console.log(`value: ${value}`),
     error => console.log(`error: ${error}`),
     () => console.log("complete"),
 );
+*/
 
-/*
+
 // get reference to the DOM element of the #output and #button ids:
 let output = document.getElementById("output");
 let button = document.getElementById("button");
@@ -65,4 +63,3 @@ click.flatMap(e => loadDataWithFetch("movies.json"))
 
 // call loadData directly on page load and subscribe to the returned Observable, passing in the completion handler of renderMovies:
 loadData("movies.json").subscribe(renderMovies);
-*/
