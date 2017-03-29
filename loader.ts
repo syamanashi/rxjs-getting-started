@@ -31,7 +31,16 @@ export function loadDataWithFetch(url: string) {
     // The promise that the fetch(url) method produces is a promise that will deliver a response object (HTTPResonse with status code, response body, etc.).
     // Call the json() method on the response object with deserialize the JSON inside of the Observable.fromPromise() method.
     return Observable.defer(() => {
-        return Observable.fromPromise(fetch(url).then(r => r.json()));
+        return Observable.fromPromise(fetch(url).then(r =>  {
+            // Check response object's status code to ensure success before returning.
+            if (r.status === 200) {
+                // Produce a promise that will resolve with the deserialized information received from the web server.  Note: if you return an object from a method that I pass into .then(), and that object is not a promise, then the runtime will wrap that result into a promise that resolves successfully.
+                return r.json();
+            } else {
+                // Introduce an error into the application that can be handled.  Note: using a thrown exception can escape the rxjs pipeline and truly become an uncaught exception.
+                return Promise.reject(r);
+            }
+        }));
     });
 }
 
