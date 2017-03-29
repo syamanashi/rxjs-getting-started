@@ -40,11 +40,11 @@ export function loadDataWithFetch(url: string) {
                 // Introduce an error into the application that can be handled.  Note: using a thrown exception can escape the rxjs pipeline and truly become an uncaught exception.
                 return Promise.reject(r);
             }
-        }));
-    });
+        })); // Note: Do not use retryWhen() for this ^^^ Observable.fromPromise() as it will not fire additional fetch() invocations.
+    }).retryWhen(retryStrategy()); // Retries the deferred Observable which forces subsequent fetch() invocations.
 }
 
-function retryStrategy({ attempts = 4, delay = 1000 }) {
+function retryStrategy({ attempts = 4, delay = 1000 } = {}) {
     // returns a function that takes an observable and returns an observable.
     // and When this function returns a value, the observable will retry the operation.
     return function (errors) {
