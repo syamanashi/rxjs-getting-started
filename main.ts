@@ -38,3 +38,5 @@ let subscription = loadData("movies.json")
         () => console.log("Complete!")
     );
 console.log(subscription);
+subscription.unsubscribe();
+console.log(subscription);

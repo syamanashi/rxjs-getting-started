@@ -9,8 +9,7 @@ export function loadData(url: string) {
 
         let xhr = new XMLHttpRequest();
 
-        // handle the xhr 'load' event which is raised when the data arrives back from the web server.
-        xhr.addEventListener("load", () => {
+        let onLoad = () => {
             if (xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
                 observer.next(data);
@@ -18,10 +17,21 @@ export function loadData(url: string) {
             } else {
                 observer.error(xhr.statusText);
             }
-        });
+        };
+
+        // handle the xhr 'load' event which is raised when the data arrives back from the web server.
+        xhr.addEventListener("load", onLoad);
 
         xhr.open("GET", url); // sets up the request type, location
         xhr.send(); // send the request asynchronously
+
+        // this code will execute when someone invokes the unsubscribe() method:
+        return () => {
+            console.log("cleanup");
+            xhr.removeEventListener("load", onLoad);
+            xhr.abort();
+        }
+
     }).retryWhen(retryStrategy({ attempts: 2, delay: 1500 }));
 }
 
